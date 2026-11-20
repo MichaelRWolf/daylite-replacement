@@ -4,6 +4,11 @@
 
 The Daylite Local MCP Server can read a note's body (the `details` field) but cannot set it. `create-note` and `edit-note` have no writable `details` input, so a note created through MCP is always created without body text.
 
+## Links
+
+- GitHub issue: https://github.com/MichaelRWolf/daylite-replacement/issues/1
+- Community post: posted to https://community.daylite.app/ (URL not yet recorded). Text from `community_post.txt`.
+
 ## Requested change
 
 - Add a writable `details` input to `create-note`.
@@ -27,4 +32,4 @@ Create the note through MCP, then add the body by hand in Daylite.
 
 ## Status
 
-- [ ] Post to Daylite community
+- [x] Post to Daylite community
