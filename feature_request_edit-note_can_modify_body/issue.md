@@ -20,6 +20,11 @@ Create the note through MCP, then add the body by hand in Daylite.
 - The Local MCP Server is in Early Access. Support asked that the request be posted to the Daylite community: https://community.daylite.app/
 - Support said the write-up can be pasted into the community post as is.
 
+## Impact
+
+- The `conference-followup` skill (`~/repos/claude-tools/skills/conference-followup/SKILL.md`, step 6) creates one `<event> notes` Daylite note per person through `create-note`. Each note is created empty and its body must be added by hand in Daylite until this request ships.
+- Once `details` is writable, step 6 can write the notes text directly and the skill's manual step goes away.
+
 ## Status
 
 - [ ] Post to Daylite community
