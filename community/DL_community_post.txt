@@ -100,7 +100,7 @@ Do not delete or unlink anything in Daylite. The tools cannot do it. If asked, s
 
 For each person in `people.md`:
 
-- Create a Daylite note titled `<event> notes`, scoped to that one person. Do not combine people into one note.
+- Create a Daylite note titled `{event} notes`, scoped to that one person. Do not combine people into one note.
 - Link the note to the person, the event (project or appointment), and the person's related organizations from the notes (`create-note`, then `link-daylite-records`).
 - Confirm the link set matches what was requested. Report any mismatch.
 
@@ -110,7 +110,7 @@ For every person in `people.md`, add an entry to one of two sections in `follow-
 
 **LinkedIn message** (LinkedIn URL known):
 
-- Write a "Good to see you at <event>" message that references a topic from our conversation. Keep it short, specific, and human.
+- Write a "Good to see you at {event}" message that references a topic from our conversation. Keep it short, specific, and human.
 
 **LinkedIn connection request** (LinkedIn URL unknown):
 

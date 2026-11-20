@@ -7,7 +7,7 @@ The Daylite Local MCP Server can read a note's body (the `details` field) but ca
 ## Links
 
 - GitHub issue: https://github.com/MichaelRWolf/daylite-replacement/issues/1
-- Community post: posted to https://community.daylite.app/ (URL not yet recorded). Text from `community_post.txt`.
+- Community post: https://community.daylite.app/c/community-discussions/feature-request-edit-note-body-via-mcp. Text from `community_post.txt`.
 
 ## Requested change
 
