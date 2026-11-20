@@ -1,0 +1,127 @@
+Early Adopter Field Report
+
+I'm loving that Claude is new interface to DL
+
+Quick overview: I'm using Claude with Daylite to do more with a conference than I ever would have done with clicky-clicky, the default CRM UI since Act! and Salesforce. I speak what I want and it does the work: people pulled into a list, a summary per session, takeaways, follow-up tasks linked to the right people and organizations, and a Daylite note for each person. None of that would have survived the clicking.
+
+Lovin' that Claude is the new interface to Daylite.
+
+Before this, conference follow-up meant clicky-clicky: create a person, fill in fields, link a company, create a task, link the task, repeat forty times. I hate clicky-clicky. Every CRM and GUI works that way, and that is not a dig at Daylite. This is a new game. I speak what I want, and Claude does it. JFDI (Just Do It).
+
+The result is more detailed conference notes and follow-up than I have ever produced, because the cost of capturing a detail dropped to nearly zero.
+
+Here is the skill, `conference-followup/SKILL.md`:
+
+````markdown
+---
+name: conference-followup
+description: Turn raw conference notes into people, session summaries, a grouped follow-up list, Daylite tasks linked to people and organizations, and LinkedIn follow-up messages. Use when user says "conference followup", "followup for [conference]", or asks to process conference notes into contacts, summaries, and tasks.
+---
+
+# Conference Follow-up
+
+## What this skill does
+
+Start by reading my notes from this event from `session_notes.md` and `event_notes.md`.
+
+Then run the whole pipeline without stopping for clicks:
+
+1. Extract people from the notes into `people.md`, with email and LinkedIn.
+2. Write `summary.md`, one section per session.
+3. Grill me on each session's takeaway, mind shift, and new practice.
+4. Write `follow-up.md`, grouped into Learned, To Do, To Learn/Research, and Other.
+5. Turn every To Do, To Learn, and To Research item into a Daylite task, linked to the people and organizations from the notes.
+6. Create one Daylite note per person in `people.md`, linked to that person, the event, and their organizations.
+7. Write LinkedIn follow-up messages for every person in `people.md`, in `follow-up.md`.
+
+## Inputs
+
+- The conference folder under `Events/` (see the `event-prep-followup` skill), with session notes.
+- Daylite (`mcp__daylite__*`) for people, companies, and tasks.
+- Contacts.app as a fallback for email and LinkedIn. Daylite reaches Contacts.app over CardDAV, so a person in Contacts is usually findable from Daylite too.
+
+If the folder or event is ambiguous, ask once. Otherwise proceed.
+
+## Steps
+
+### 1. People → `people.md`
+
+- Find every person named in the notes.
+- Look each one up in Daylite first (`find-people`), then Contacts.app.
+- Write a table in `people.md`: Name | Organization | Email | LinkedIn | Session(s) | Source.
+- Leave the cell blank when the value is not found. Never invent an email or LinkedIn URL.
+
+### 2. Session summaries → `summary.md`
+
+One section per session. Title format:
+
+```text
+## 10:00 - Blue room - Speaker
+```
+
+Under each title, the topic goes on the first line, then:
+
+- People mentioned (link to `people.md`)
+- Ideas
+- Follow-up items
+
+### 3. Grill me, per session
+
+For each session in `summary.md`, run `/grill-me` on three questions:
+
+- What is my takeaway?
+- What is my mind shift?
+- What is my new practice?
+
+Write the answers into that session's section of `summary.md`. The grill is the point. Push until the answers are concrete enough to act on.
+
+### 4. Follow-up → `follow-up.md`
+
+Create `follow-up.md` after `summary.md` is complete. Group items across all sessions into four sections:
+
+- Learned
+- To Do
+- To Learn/Research
+- Other
+
+Each item keeps a reference to its session.
+
+### 5. Daylite tasks
+
+For every item in To Do, To Learn/Research:
+
+- Create a Daylite task on the conference project or appointment.
+- Link the task to each person and organization named in the originating notes (`link-daylite-records`).
+- Confirm the write-back matches what was requested. Report any mismatch.
+
+Do not delete or unlink anything in Daylite. The tools cannot do it. If asked, say it must be done in Daylite itself.
+
+### 6. Person notes in Daylite
+
+For each person in `people.md`:
+
+- Create a Daylite note titled `<event> notes`, scoped to that one person. Do not combine people into one note.
+- Link the note to the person, the event (project or appointment), and the person's related organizations from the notes (`create-note`, then `link-daylite-records`).
+- Confirm the link set matches what was requested. Report any mismatch.
+
+### 7. LinkedIn follow-up in `follow-up.md`
+
+For every person in `people.md`, add an entry to one of two sections in `follow-up.md`:
+
+**LinkedIn message** (LinkedIn URL known):
+
+- Write a "Good to see you at <event>" message that references a topic from our conversation. Keep it short, specific, and human.
+
+**LinkedIn connection request** (LinkedIn URL unknown):
+
+- Give a LinkedIn search link by name so I can find them.
+- Write a shorter connection request in the same tone.
+
+## Rules of the game
+
+- JFDI. Do the steps in order without asking permission between them.
+- Ask only when the answer changes the outcome, such as an ambiguous event or a name with two matches.
+- Use Daylite ID values only from a find or get result. Never invent an ID, category, or relationship type.
+- Never send email or LinkedIn messages. Only draft them.
+- Report what was created, what was skipped, and what is blank, in that order.
+````
